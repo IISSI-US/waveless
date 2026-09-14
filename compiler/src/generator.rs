@@ -27,11 +27,7 @@ impl GeneratedEndpoints {
 
         let mut all_endpoints = CheapVec::<_, 0>::new();
 
-        let generators = project
-            .compiler()
-            .endpoint_generators()
-            .iter()
-            .filter(|generator| *generator.checksum());
+        let generators = project.compiler().endpoint_generators().iter();
 
         for generator in generators {
             let (endpoints, checksum) = generator.backend().generate(db_conns.to_owned()).await?;

@@ -9,7 +9,7 @@ edition.workspace = true
 [dependencies]
 waveless_commons.workspace = true
 
-waveless_sql = { workspace = true}
+waveless_sql = { workspace = true }
 
 rustyrosetta = { workspace = true, features = ["all"] }
 

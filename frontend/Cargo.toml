@@ -11,7 +11,7 @@ waveless_commons.workspace = true
 waveless_compiler.workspace = true
 waveless_runtime.workspace = true
 
-waveless_sql = { workspace = true}
+waveless_sql = { workspace = true }
 
 rustyrosetta = { workspace = true, features = ["all"] }
 
