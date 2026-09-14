@@ -18,6 +18,10 @@ Asking a model to suggest an implementation, explain an error, or critique your 
 
 If you want to reference something a model produced — an error explanation, a suggested approach — put it in a blockquote and label it as model output. Add your own commentary explaining why it matters and what you concluded. Keep excerpts short, and do not paste whole conversations. Naming the model is optional but helpful.
 
+## AI Usage on Extensions
+
+Code produced by LLMs and autonomous agents is generally allowed in Waveless extensions as long as the code produced is not critical parts (these belong to the mono-repository) and a human-in-the-loop methodology is used. Low-quality vibe-coded extensions are discouraged and never recommended.
+
 ## Enforcement
 
 Maintainers may close, hide or reject anything that breaks these rules, and repeated disregard can end in a ban.
