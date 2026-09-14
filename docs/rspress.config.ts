@@ -12,6 +12,11 @@ export default defineConfig({
     base: "/waveless",
     plugins: [katex(), viz(), pluginLlms()],
     globalStyles: path.join(__dirname, "theme/main.css"),
+    markdown: {
+        link: {
+            checkDeadLinks: false,
+        },
+    },
     themeConfig: {
         lastUpdated: {
             author: true,
