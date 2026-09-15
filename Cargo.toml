@@ -36,7 +36,7 @@ rustls = { version = "0.23", default-features = false }
 futures = "0.3"
 
 serde = { version = "1.0.229", features = ["derive", "rc"] }
-toml = "1.1.5"
+toml = "1.1.6"
 serde_json = "1.0"
 serde_with = { version = "3.23", features = ["chrono"] }
 
@@ -62,7 +62,7 @@ sqlx = { version = "0.9.0", features = [
     "json",
     "mysql"
 ] }
-sea-orm = { version = "2.0.2", default-features = false }
+sea-orm = { version = "2.0.3", default-features = false }
 sea-schema = { git = "https://github.com/nv0skar/sea-schema-mysql.git" }
 
 chrono = { version = "0.4.45", default-features = false, features = [

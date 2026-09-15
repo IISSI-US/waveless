@@ -33,25 +33,22 @@ impl Service<RequestCx> for ExecuteHandler {
                 unreachable!()
             };
 
-            // Executes request.
-            let Some(execute_strategy) = http_target.execution_pipeline() else {
+            let Some(execution_atom) = http_target.execution_pipeline() else {
                 return Err(RequestError::Expected(
                     StatusCode::INTERNAL_SERVER_ERROR,
                     format!("The route doesn't have any executor defined. HINT: Go to your project's endpoints folder and check that '{}' has an executor set.", endpoint.id()).into(),
                 ));
             };
 
-            // Build the pipeline cx.
-            let pipeline_cx = PipelineCx::new(cx, None);
+            // Initialize the pipeline context.
+            let mut pipeline_cx = PipelineCx::new(cx);
 
-            let (PipelineCx { response, .. }, _) = execute_strategy.executor()
-                .execute(
-                    pipeline_cx,
-                    db_conns,
-                )
-                .await?;
+            // Run the executors.
+            pipeline_cx = execution_atom.execute(pipeline_cx, db_conns).await?;
 
-            Ok(response.unwrap())
+            let PipelineCx { response, .. } = pipeline_cx;
+
+            Ok(response.unwrap_or_default())
         }).into();
 
         future as Self::Future // `rust-analyzer` complains here.

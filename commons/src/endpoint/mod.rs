@@ -203,8 +203,7 @@ pub struct HttpTarget {
 
     /// Establishes the execution pipeline. Note that if no executor is set, the server will try to handle the request internally.
     #[serde(default, skip_serializing_if = "should_skip_option")]
-    #[serde_as(as = "IfIsHumanReadable<_, JsonString>")] // Explore müsli to avoid this.
-    execution_pipeline: Option<ExecutionStep>,
+    execution_pipeline: Option<ExecutionAtom>,
 
     /// Sets the accepted query parameters.
     #[serde(default, skip_serializing_if = "should_skip_cheapvec")]
