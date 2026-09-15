@@ -61,7 +61,7 @@ pub type DatabaseId = CompactString;
 pub type DataSchemaDiscoveryMethodId = CompactString;
 pub type ExternalDriverId = CompactString;
 
-pub type ExecutionStepId = CompactString;
+pub type ExecutionAtomId = CompactString;
 
 pub type UserId = usize;
 

@@ -62,7 +62,7 @@ pub enum PipelineAction {
     /// Continue to the next established executor.
     /// NOTE: if there is none it will finish.
     /// NOTE: if there are multiple children the first one will be executed.
-    Continue(Option<ExecutionStepId>),
+    Continue(Option<ExecutionAtomId>),
 
     /// Finish execution flow and immediately return the current response.
     #[default]

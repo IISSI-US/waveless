@@ -13,7 +13,7 @@ pub struct ExecutionAtom {
     /// Unique identifier for each executor.
     /// NOTE: if the id is not set the parent node won't be able to select this step if it has multiple children.
     #[serde(default, skip_serializing_if = "should_skip_option")]
-    id: Option<ExecutionStepId>,
+    id: Option<ExecutionAtomId>,
 
     /// Establishes the execute handler.
     #[serde_as(as = "IfIsHumanReadable<_, JsonString>")] // Explore müsli to avoid this.
