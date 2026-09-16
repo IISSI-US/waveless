@@ -40,7 +40,7 @@ pub async fn load<T: 'static>() -> Result<Either<ObjectArtifact, Bytes>> {
             let endpoint_path = endpoint_path?;
             match read(endpoint_path.path()) {
                 Ok(file_buffer) => {
-                    match toml::from_slice::<Endpoints>(&file_buffer) {
+                    match serde_json::from_slice::<Endpoints>(&file_buffer) {
                         Ok(new_endpoints) => endpoints.merge(new_endpoints)?,
                         Err(err) => Err(err).wrap_err(format!(
                             "Cannot deserialize the endpoints definition file '{}'.",
@@ -70,11 +70,11 @@ pub async fn load<T: 'static>() -> Result<Either<ObjectArtifact, Bytes>> {
     for (generator_id, (new_endpoints, checksum)) in generated_endpoints.get() {
         let target_file = workspace_root
             .join(".generated_endpoints")
-            .join(format!("{}.toml", hex::encode(generator_id)));
+            .join(format!("{}.json", hex::encode(generator_id)));
 
         write(
             &target_file,
-            toml::to_string_pretty(&new_endpoints)?.as_bytes(),
+            serde_json::to_string_pretty(&new_endpoints)?.as_bytes(),
         )?;
 
         info!(

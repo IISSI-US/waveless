@@ -1,8 +1,6 @@
 // Waveless
 // Copyright (C) 2026 Oscar Alvarez Gonzalez
 
-use waveless_commons::databases::DatabaseConsumer;
-
 use crate::*;
 
 /// TODO: add documentation.
@@ -43,8 +41,17 @@ impl Service<RequestCx> for ExecuteHandler {
             // Initialize the pipeline context.
             let mut pipeline_cx = PipelineCx::new(cx);
 
+            // Initialize executor tracing context.
+            let mut exec_tracing_cx = CheapVec::new();
+
             // Run the executors.
-            pipeline_cx = execution_atom.execute(pipeline_cx, db_conns).await?;
+            let _start_time = Instant::now();
+
+            pipeline_cx = execution_atom.execute(pipeline_cx, db_conns, &mut exec_tracing_cx).await?;
+
+            let elapsed = _start_time.elapsed();
+
+            info!("Executed {} in {}ms ({} rounds).", exec_tracing_cx.iter().map(|id| format!("`{}`", id)).collect::<CheapVec<_>>().join(" → "), elapsed.as_millis(), exec_tracing_cx.len());
 
             let PipelineCx { response, .. } = pipeline_cx;
 

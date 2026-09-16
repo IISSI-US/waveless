@@ -36,6 +36,7 @@ impl ExecutionAtom {
         &'a self,
         cx: PipelineCx,
         db_conns: DbConns,
+        exec_tracing_cx: &'a mut CheapVec<ExecutionAtomId>,
     ) -> BoxFuture<'a, Result<PipelineCx, RequestError>> {
         let future: Pin<_> = Box::pin(async move {
             let ExecutionAtom {
@@ -44,6 +45,16 @@ impl ExecutionAtom {
                 children,
                 ..
             } = self;
+
+            let id = id.to_owned().unwrap_or("no id".into());
+
+            exec_tracing_cx.push(id.to_owned());
+
+            debug!(
+                "Executing `{}` on round {}.",
+                id.to_owned(),
+                exec_tracing_cx.len()
+            );
 
             // Run the current executor.
             let (PipelineCx { request, response }, action) =
@@ -62,12 +73,14 @@ impl ExecutionAtom {
                     }
                     .wrap_err(format!(
                         "Execution atom `{}` doesn't have a child with the id `{}`",
-                        id.to_owned().unwrap_or("no id".into()),
+                        id,
                         child_id.to_owned().unwrap_or_default()
                     ))?
                     .to_owned();
 
-                    Ok(child.execute((request, response).into(), db_conns).await?)
+                    Ok(child
+                        .execute((request, response).into(), db_conns, exec_tracing_cx)
+                        .await?)
                 }
                 _ => Ok((request, response).into()), // Discards any further execution and returns the current response.
             }

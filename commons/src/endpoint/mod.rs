@@ -13,13 +13,9 @@ use socket_executor::*;
 /// Holds all the endpoints, is a wrapper of the [`CheapVec<Endpoint>`] type.
 #[derive(Clone, PartialEq, Serialize, Deserialize, Getters, MutGetters, Debug)]
 #[getset(get = "pub", get_mut = "pub")]
-#[serde(default)]
+#[serde(default, transparent)]
 pub struct Endpoints {
-    #[serde(
-        rename = "endpoints",
-        default,
-        skip_serializing_if = "should_skip_cheapvec"
-    )]
+    #[serde(rename = "endpoints", skip_serializing_if = "should_skip_cheapvec")]
     inner: CheapVec<Endpoint, 0>,
 }
 

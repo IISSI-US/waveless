@@ -6,6 +6,7 @@ use crate::*;
 use super::*;
 
 /// Trait implemented for every role's storage backend.
+/// TODO: add more docs.
 #[typetag::serde]
 #[async_trait]
 pub trait AnyRoleMethod: AnyExt + DatabaseConsumer {

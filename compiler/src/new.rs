@@ -97,11 +97,11 @@ pub fn new_project(name: CompactString) -> Result<ResultContext> {
         let mut sample_endpoint_file = File::create_new(
             project_path
                 .join(default_project.compiler().endpoints_dir())
-                .join("sample_endpoint.toml"),
+                .join("sample_endpoint.json"),
         )
-        .context("Unexpected error, cannot create `sample_endpoint.toml` file.")?;
+        .context("Unexpected error, cannot create `sample_endpoint.json` file.")?;
 
-        let _ = sample_endpoint_file.write(toml::to_string_pretty(&endpoints)?.as_bytes())?;
+        let _ = sample_endpoint_file.write(serde_json::to_string_pretty(&endpoints)?.as_bytes())?;
     }
 
     Ok(format!(
@@ -110,7 +110,7 @@ pub fn new_project(name: CompactString) -> Result<ResultContext> {
         project_path.display(),
         "project.toml",
         Path::new(default_project.compiler().endpoints_dir())
-            .join("sample_endpoint.toml")
+            .join("sample_endpoint.json")
             .display()
     )
     .into())

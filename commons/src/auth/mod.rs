@@ -13,6 +13,7 @@ use databases::*;
 
 /// Trait implemented for every user authentication mechanism.
 /// Note that the auth data does not have to live in a SQL database...
+/// TODO: add more docs.
 #[typetag::serde]
 #[async_trait]
 pub trait AnyAuthenticationMethod: AnyExt + DatabaseConsumer {
